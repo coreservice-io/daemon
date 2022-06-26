@@ -67,7 +67,7 @@ func start(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	result, err := service.Status()
+	result, err := service.Start()
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func stop(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	result, err := service.Status()
+	result, err := service.Stop()
 	if err != nil {
 		return err
 	}
@@ -102,6 +102,10 @@ func restart(cCtx *cli.Context) error {
 	}
 
 	service, err := NewService(serviceName)
+	if err != nil {
+		return err
+	}
+	_, err = service.Stop()
 	if err != nil {
 		return err
 	}
