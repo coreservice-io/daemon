@@ -1,0 +1,201 @@
+definitions:
+  api.API_META_STATUS:
+    properties:
+      meta_message:
+        type: string
+      meta_status:
+        type: integer
+    type: object
+  api.MSG_REQ_CREATE_USER:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  api.MSG_REQ_SearchUser:
+    properties:
+      filter:
+        $ref: '#/definitions/api.MSG_REQ_SearchUser_Filter'
+      limit:
+        description: required
+        type: integer
+      offset:
+        description: required
+        type: integer
+    type: object
+  api.MSG_REQ_SearchUser_Filter:
+    properties:
+      email:
+        description: optional  email can be like condition e.g " LIKE `%jack%` "
+        type: string
+      id:
+        description: 'sql : id in (...) //optional'
+        items:
+          type: integer
+        type: array
+      name:
+        description: optional
+        type: string
+    type: object
+  api.MSG_REQ_UpdateUser:
+    properties:
+      filter:
+        $ref: '#/definitions/api.MSG_REQ_UpdateUser_Filter'
+      update:
+        $ref: '#/definitions/api.Msg_Req_UpdateUser_To'
+    type: object
+  api.MSG_REQ_UpdateUser_Filter:
+    properties:
+      id:
+        items:
+          type: integer
+        type: array
+    type: object
+  api.MSG_RESP_CREATE_USER:
+    properties:
+      meta_message:
+        type: string
+      meta_status:
+        type: integer
+      user:
+        $ref: '#/definitions/api.MSG_User'
+    type: object
+  api.MSG_RESP_HEALTH:
+    properties:
+      unixtime:
+        type: integer
+    type: object
+  api.MSG_RESP_SearchUser:
+    properties:
+      meta_message:
+        type: string
+      meta_status:
+        type: integer
+      result:
+        items:
+          $ref: '#/definitions/api.MSG_User'
+        type: array
+    type: object
+  api.MSG_User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  api.Msg_Req_UpdateUser_To:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      status:
+        type: string
+    type: object
+info:
+  contact:
+    email: contact@domain.com
+    name: Support
+    url: https://domain.com
+  description: api example
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://domain.com
+  title: api example
+  version: "1.0"
+paths:
+  /api/health:
+    get:
+      description: health check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: server unix time
+          schema:
+            $ref: '#/definitions/api.MSG_RESP_HEALTH'
+      summary: /api/health
+      tags:
+      - health
+  /api/user/create:
+    post:
+      consumes:
+      - application/json
+      description: creat user
+      parameters:
+      - description: new user info
+        in: body
+        name: msg
+        required: true
+        schema:
+          $ref: '#/definitions/api.MSG_REQ_CREATE_USER'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: result
+          schema:
+            $ref: '#/definitions/api.MSG_RESP_CREATE_USER'
+      security:
+      - ApiKeyAuth: []
+      summary: creat user
+      tags:
+      - user
+  /api/user/search:
+    post:
+      description: search user
+      parameters:
+      - description: user search param
+        in: body
+        name: msg
+        required: true
+        schema:
+          $ref: '#/definitions/api.MSG_REQ_SearchUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: result
+          schema:
+            $ref: '#/definitions/api.MSG_RESP_SearchUser'
+      security:
+      - ApiKeyAuth: []
+      summary: search user
+      tags:
+      - user
+  /api/user/update:
+    post:
+      consumes:
+      - application/json
+      description: update user
+      parameters:
+      - description: update user
+        in: body
+        name: msg
+        required: true
+        schema:
+          $ref: '#/definitions/api.MSG_REQ_UpdateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: result
+          schema:
+            $ref: '#/definitions/api.API_META_STATUS'
+      security:
+      - ApiKeyAuth: []
+      summary: update user
+      tags:
+      - user
+schemes:
+- https
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
