@@ -105,11 +105,8 @@ func restart(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	_, err = service.Stop()
-	if err != nil {
-		return err
-	}
-	result, err := service.Status()
+	service.Stop()
+	result, err := service.Start()
 	if err != nil {
 		return err
 	}
