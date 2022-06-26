@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -14,33 +13,34 @@ func main() {
 		Usage: "run app as system service",
 		Commands: []*cli.Command{
 			{
-				Name:  "install",
-				Usage: "install app as system service",
+				Name:   "install",
+				Usage:  "install app as system service",
+				Action: install,
 			},
 			{
-				Name:  "remove",
-				Usage: "remove app from system service",
+				Name:   "remove",
+				Usage:  "remove app from system service",
+				Action: remove,
 			},
 			{
-				Name:  "start",
-				Usage: "start app",
+				Name:   "start",
+				Usage:  "start app",
+				Action: start,
 			},
 			{
-				Name:  "stop",
-				Usage: "stop app",
+				Name:   "stop",
+				Usage:  "stop app",
+				Action: stop,
 			},
 			{
-				Name:  "restart",
-				Usage: "restart app",
+				Name:   "restart",
+				Usage:  "restart app",
+				Action: restart,
 			},
 			{
-				Name:  "status",
-				Usage: "show app status",
-				Action: func(cCtx *cli.Context) error {
-					fmt.Println("removed task template: ", cCtx.Args().First())
-					log.Println(cCtx.Args())
-					return nil
-				},
+				Name:   "status",
+				Usage:  "show app status",
+				Action: status,
 			},
 		},
 	}
@@ -48,10 +48,4 @@ func main() {
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func RunServiceCmd(cCtx *cli.Context) error {
-	fmt.Printf("Hello %q", cCtx.Args().Get(0))
-	log.Println(cCtx.Args())
-	return nil
 }
