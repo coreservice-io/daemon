@@ -1,4 +1,4 @@
-module github.com/coreservice-io/service-util
+module github.com/coreservice-io/service
 
 go 1.17
 

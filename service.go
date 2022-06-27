@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/coreservice-io/service-util/daemon"
+	"github.com/coreservice-io/service/daemon"
 	"github.com/urfave/cli/v2"
 )
 
