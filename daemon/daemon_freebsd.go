@@ -119,17 +119,17 @@ func (bsd *bsdRecord) Install(args ...string) (string, error) {
 		return installAction + failed, ErrAlreadyInstalled
 	}
 
+	execPatch := path_util.ExE_Path(bsd.name)
+	_, err := os.Stat(execPatch)
+	if err != nil {
+		return installAction + failed, err
+	}
+
 	file, err := os.Create(srvPath)
 	if err != nil {
 		return installAction + failed, err
 	}
 	defer file.Close()
-
-	execPatch := path_util.ExE_Path(bsd.name)
-	_, err = os.Stat(execPatch)
-	if err != nil {
-		return installAction + failed, err
-	}
 
 	templ, err := template.New("bsdConfig").Parse(bsdConfig)
 	if err != nil {

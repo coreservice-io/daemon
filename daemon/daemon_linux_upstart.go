@@ -68,17 +68,17 @@ func (linux *upstartRecord) Install(args ...string) (string, error) {
 		return installAction + failed, ErrAlreadyInstalled
 	}
 
+	execPatch := path_util.ExE_Path(linux.name)
+	_, err := os.Stat(execPatch)
+	if err != nil {
+		return installAction + failed, err
+	}
+
 	file, err := os.Create(srvPath)
 	if err != nil {
 		return installAction + failed, err
 	}
 	defer file.Close()
-
-	execPatch := path_util.ExE_Path(linux.name)
-	_, err = os.Stat(execPatch)
-	if err != nil {
-		return installAction + failed, err
-	}
 
 	templ, err := template.New("upstatConfig").Parse(upstatConfig)
 	if err != nil {

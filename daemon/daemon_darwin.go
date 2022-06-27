@@ -93,17 +93,17 @@ func (darwin *darwinRecord) Install(args ...string) (string, error) {
 		return installAction + failed, ErrAlreadyInstalled
 	}
 
-	file, err := os.Create(srvPath)
-	if err != nil {
-		return installAction + failed, err
-	}
-	defer file.Close()
-
 	execPatch := path_util.ExE_Path(darwin.name)
 	_, err = os.Stat(execPatch)
 	if err != nil {
 		return installAction + failed, err
 	}
+
+	file, err := os.Create(srvPath)
+	if err != nil {
+		return installAction + failed, err
+	}
+	defer file.Close()
 
 	templ, err := template.New("propertyList").Parse(propertyList)
 	if err != nil {
