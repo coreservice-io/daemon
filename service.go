@@ -48,6 +48,8 @@ func remove(cCtx *cli.Context) error {
 	if err != nil {
 		return err
 	}
+
+	service.Stop()
 	result, err := service.Remove()
 	if err != nil {
 		return err
