@@ -1,4 +1,4 @@
-module github.com/coreservice-io/service
+module github.com/coreservice-io/daemon
 
 go 1.17
 

@@ -9,7 +9,7 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name:  "service-util",
+		Name:  "daemon-util",
 		Usage: "run app as system service",
 		Commands: []*cli.Command{
 			{
