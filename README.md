@@ -1,4 +1,4 @@
-# Service
+# DAEMON
 
 Install app as system service [support Linux and Darwin]
 
