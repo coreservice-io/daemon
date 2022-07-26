@@ -13,3 +13,6 @@ GOOS=linux GOARCH=amd64  go build -a -o "./build/service-linux-amd64"
 
 echo "Compiling ARM64 version"
 GOOS=linux GOARCH=arm64   go build -a -o "./build/service-linux-arm64"
+
+echo "Compiling ARM version"
+GOOS=linux GOARCH=arm   go build -a -o "./build/service-linux-arm"
