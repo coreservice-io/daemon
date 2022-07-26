@@ -1,12 +1,13 @@
 # Service
 
-Install app as system service, support Linux and Darwin
+Install app as system service [support Linux and Darwin]
 
 Precompiled files in /build
 
 daemon-darwin-amd64<br />
 daemon-linux-amd64<br />
 daemon-linux-arm64<br />
+daemon-linux-arm32<br />
 
 If you need other system files, please compile it yourself.
 
