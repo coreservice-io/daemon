@@ -17,7 +17,7 @@ daemon-linux-arm32<br />
 
 ### for example
 ```
-├─yourProjectFolder
+├─{your-project-folder}
 │  ├─configs    //cofig folder
 │  ├─logs       //log folder
 │  ├─assets     //assets folderr
