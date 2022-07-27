@@ -29,11 +29,11 @@ func newDaemon(name, description string, kind Kind, dependencies []string) (Daem
 	}
 
 	if isOpenWrt() {
-		log.Println("openwrt detected")
+		log.Println("[info] openwrt detected")
 		return &openWrtRecord{name, description, kind, dependencies}, nil
 	}
 
-	log.warning("[warning] using default systemV type")
+	log.Println("[warning] using default systemV type")
 	return &systemVRecord{name, description, kind, dependencies}, nil
 }
 
