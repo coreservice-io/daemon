@@ -5,14 +5,14 @@ rm -f -R ./build
 mkdir build
 
 #todo mac is for dev, not for pro
-echo "Compiling MAC 64bit version"
+echo "Compiling MAC amd64 version"
 GOOS=darwin GOARCH=amd64 go build -a -o "./build/daemon-darwin-amd64"
 
-echo "Compiling Linux 64bit version"
+echo "Compiling Linux  amd64 version"
 GOOS=linux GOARCH=amd64  go build -a -o "./build/daemon-linux-amd64"
 
-echo "Compiling ARM64 version"
+echo "Compiling Linux ARM64 version"
 GOOS=linux GOARCH=arm64   go build -a -o "./build/daemon-linux-arm64"
 
-echo "Compiling ARM version"
-GOOS=linux GOARCH=arm   go build -a -o "./build/daemon-linux-arm"
+echo "Compiling Linux ARM32 version"
+GOOS=linux GOARCH=arm   go build -a -o "./build/daemon-linux-arm32"

@@ -1,23 +1,23 @@
-# Service
+# DAEMON
 
-Install app as system service, support Linux and Darwin
+Install app as system service [support Linux and Darwin]
 
 Precompiled files in /build
 
 daemon-darwin-amd64<br />
 daemon-linux-amd64<br />
 daemon-linux-arm64<br />
+daemon-linux-arm32<br />
 
-If you need other system files, please compile it yourself.
 
 ## How to use
-1. Compile program according to the operating system. 
+1. Compile program according to the os-arch system. 
 2. Copy the compiled file into your project package and rename to "daemon".
 3. Run cmd "sudo ./daemon [install/remove/start/stop/restart/status] [app name]"to manage process
 
 ### for example
 ```
-├─yourProjectFolder
+├─{your-project-folder}
 │  ├─configs    //cofig folder
 │  ├─logs       //log folder
 │  ├─assets     //assets folderr
@@ -27,8 +27,8 @@ If you need other system files, please compile it yourself.
 
 run cmd
 ```
-//enter yourProjectFolder
-cd ./yourProjectFolder
+//enter {your-project-folder}
+cd ./{your-project-folder}
 
 sudo ./daemon install myapp [arg1] [arg2] ...
 sudo ./daemon start myapp
