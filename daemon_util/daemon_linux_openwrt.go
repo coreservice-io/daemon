@@ -39,14 +39,10 @@ func (linux *openWrtRecord) isInstalled() bool {
 
 // Check service is running
 func (linux *openWrtRecord) checkRunning() (string, bool) {
-	output, err := exec.Command("service", linux.name, "status").Output()
+	srvPath := linux.servicePath()
+	output, err := exec.Command(srvPath, "status").Output()
 	if err == nil {
-		if matched, err := regexp.MatchString(linux.name, string(output)); err == nil && matched {
-			reg := regexp.MustCompile("pid  ([0-9]+)")
-			data := reg.FindStringSubmatch(string(output))
-			if len(data) > 1 {
-				return "Service (pid  " + data[1] + ") is running...", true
-			}
+		if matched, err := regexp.MatchString("running", string(output)); err == nil && matched {
 			return "Service is running...", true
 		}
 	}
@@ -98,6 +94,10 @@ func (linux *openWrtRecord) Install(args ...string) (string, error) {
 		return installAction + failed, err
 	}
 
+	if err := exec.Command(srvPath, "enable").Run(); err != nil {
+		return installAction + failed, err
+	}
+
 	return installAction + success, nil
 }
 
@@ -111,6 +111,11 @@ func (linux *openWrtRecord) Remove() (string, error) {
 
 	if !linux.isInstalled() {
 		return removeAction + failed, ErrNotInstalled
+	}
+
+	srvPath := linux.servicePath()
+	if err := exec.Command(srvPath, "disable").Run(); err != nil {
+		return removeAction + failed, err
 	}
 
 	if err := os.Remove(linux.servicePath()); err != nil {
@@ -136,7 +141,8 @@ func (linux *openWrtRecord) Start() (string, error) {
 		return startAction + failed, ErrAlreadyRunning
 	}
 
-	if err := exec.Command("service", linux.name, "start").Run(); err != nil {
+	srvPath := linux.servicePath()
+	if err := exec.Command(srvPath, "start").Run(); err != nil {
 		return startAction + failed, err
 	}
 
@@ -159,7 +165,8 @@ func (linux *openWrtRecord) Stop() (string, error) {
 		return stopAction + failed, ErrAlreadyStopped
 	}
 
-	if err := exec.Command("service", linux.name, "stop").Run(); err != nil {
+	srvPath := linux.servicePath()
+	if err := exec.Command(srvPath, "stop").Run(); err != nil {
 		return stopAction + failed, err
 	}
 
@@ -216,16 +223,23 @@ USE_PROCD=1
 
 DAEMON={{.Name}}
 PROG={{.Path}}
+pid_file="/var/run/${DAEMON}.pid"
 
 start_service() {
-	echo "start user service!"
+	echo "start ${DAEMON} service!"
 
 	# ubus call service list -check instance
 	procd_open_instance
-	
+
+	if  [ -e "/var/run/${DAEMON}.pid" ]
+	then
+    	killall $DAEMON &> /dev/null
+        rm var/run/${DAEMON}.pid &> /dev/null
+	fi
+
 	#respawn
 	# threshold：3600；timeout：5；retry：5
-	procd_set_param respawn 0 60 100
+	procd_set_param respawn 0 5 100
 	
 	# run 
 	procd_set_param command $PROG
