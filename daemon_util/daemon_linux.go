@@ -29,9 +29,11 @@ func newDaemon(name, description string, kind Kind, dependencies []string) (Daem
 	}
 
 	if isOpenWrt() {
+		log.Println("openwrt detected")
 		return &openWrtRecord{name, description, kind, dependencies}, nil
 	}
 
+	log.warning("[warning] using default systemV type")
 	return &systemVRecord{name, description, kind, dependencies}, nil
 }
 
@@ -43,14 +45,12 @@ func execPath() (string, error) {
 func isOpenWrt() bool {
 	osInfo, err := uname()
 	if err == nil {
-		log.Println("[warning] xxxxxxxxx")
 		for _, v := range openwrtNameArr {
 			if strings.Index(osInfo, v) != -1 { //exist
 				return true
 			}
 		}
 	}
-
 	return false
 }
 
