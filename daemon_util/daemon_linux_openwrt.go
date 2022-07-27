@@ -226,7 +226,6 @@ USE_PROCD=1
 
 DAEMON={{.Name}}
 PROG={{.Path}}
-pid_file="/var/run/${DAEMON}.pid"
 
 start_service() {
 	echo "start ${DAEMON} service!"
@@ -234,41 +233,15 @@ start_service() {
 	# ubus call service list -check instance
 	procd_open_instance
 
-	if  [ -e "/var/run/${DAEMON}.pid" ]
-	then
-    	killall $DAEMON &> /dev/null
-        rm var/run/${DAEMON}.pid &> /dev/null
-	fi
-
 	#respawn
 	# threshold：3600；timeout：5；retry：5
-	procd_set_param respawn 0 5 10000
+	procd_set_param respawn 0 30 10000
 	
 	# run 
 	procd_set_param command $PROG
 
-	# pidfile
-	procd_set_param pidfile /var/run/${DAEMON}.pid
-
 	procd_close_instance
 }
-
-#stop_service() {
-#	echo "stop user service!"
-#	rm -f /var/run/${DAEMON}.pid
-#	service_stop "$PROG"
-#	killall $DAEMON
-#}
-#
-#reload_service(){
-#	echo "reload user service!"
-#	stop
-#	start
-#}
-
-# service_started(){
-
-# }
 
 restart() {
  　　stop
