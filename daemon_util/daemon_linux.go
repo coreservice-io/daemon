@@ -6,8 +6,17 @@
 package daemon_util
 
 import (
+	"io/ioutil"
+	"log"
 	"os"
+	"os/exec"
+	"strings"
 )
+
+var openwrtNameArr = []string{
+	"bobcatminer",
+	"wrt",
+}
 
 // Get the daemon properly
 func newDaemon(name, description string, kind Kind, dependencies []string) (Daemon, error) {
@@ -18,10 +27,48 @@ func newDaemon(name, description string, kind Kind, dependencies []string) (Daem
 	if _, err := os.Stat("/sbin/initctl"); err == nil {
 		return &upstartRecord{name, description, kind, dependencies}, nil
 	}
+
+	if isOpenWrt() {
+		return &openWrtRecord{name, description, kind, dependencies}, nil
+	}
+
 	return &systemVRecord{name, description, kind, dependencies}, nil
 }
 
 // Get executable path
 func execPath() (string, error) {
 	return os.Readlink("/proc/self/exe")
+}
+
+func isOpenWrt() bool {
+	osInfo, err := uname()
+	if err == nil {
+		log.Println("[warning] xxxxxxxxx")
+		for _, v := range openwrtNameArr {
+			if strings.Index(osInfo, v) != -1 { //exist
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+func uname() (string, error) {
+	cmd := exec.Command("uname", "-a")
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return "", err
+	}
+	defer stdout.Close()
+
+	if err := cmd.Start(); err != nil { // 运行命令
+		return "", err
+	}
+
+	if opBytes, err := ioutil.ReadAll(stdout); err != nil { // 读取输出结果
+		return "", err
+	} else {
+		return strings.ToLower(string(opBytes)), nil
+	}
 }

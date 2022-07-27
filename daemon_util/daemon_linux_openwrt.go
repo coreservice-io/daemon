@@ -233,7 +233,6 @@ start_service() {
 	# pidfile
 	procd_set_param pidfile /var/run/${DAEMON}.pid
 
-	# 完成进程实例的增加
 	procd_close_instance
 }
 
