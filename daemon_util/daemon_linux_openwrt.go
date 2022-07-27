@@ -220,7 +220,7 @@ var openWrtConfig = `#!/bin/sh /etc/rc.common
 # description: Starts and stops a single {{.Name}} instance on this system
 
 START=98
-STOP=98
+STOP=01
 
 USE_PROCD=1
 
@@ -253,18 +253,18 @@ start_service() {
 	procd_close_instance
 }
 
-stop_service() {
-	echo "stop user service!"
-	rm -f /var/run/${DAEMON}.pid
-	service_stop "$PROG"
-	killall $DAEMON
-}
-
-reload_service(){
-	echo "reload user service!"
-	stop
-	start
-}
+#stop_service() {
+#	echo "stop user service!"
+#	rm -f /var/run/${DAEMON}.pid
+#	service_stop "$PROG"
+#	killall $DAEMON
+#}
+#
+#reload_service(){
+#	echo "reload user service!"
+#	stop
+#	start
+#}
 
 # service_started(){
 
