@@ -14,8 +14,11 @@ import (
 )
 
 var openwrtNameArr = []string{
-	"bobcatminer",
 	"wrt",
+}
+
+var bobcatNameArr = []string{
+	"bobcat",
 }
 
 // Get the daemon properly
@@ -33,6 +36,11 @@ func newDaemon(name, description string, kind Kind, dependencies []string) (Daem
 		return &openWrtRecord{name, description, kind, dependencies}, nil
 	}
 
+	if isBobCat() {
+		log.Println("[info] bobcat detected")
+		return &bobCatRecord{name, description, kind, dependencies}, nil
+	}
+
 	log.Println("[warning] using default systemV type")
 	return &systemVRecord{name, description, kind, dependencies}, nil
 }
@@ -40,6 +48,18 @@ func newDaemon(name, description string, kind Kind, dependencies []string) (Daem
 // Get executable path
 func execPath() (string, error) {
 	return os.Readlink("/proc/self/exe")
+}
+
+func isBobCat() bool {
+	osInfo, err := uname()
+	if err == nil {
+		for _, v := range bobcatNameArr {
+			if strings.Index(osInfo, v) != -1 { //exist
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func isOpenWrt() bool {
