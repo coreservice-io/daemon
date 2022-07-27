@@ -242,7 +242,7 @@ start_service() {
 
 	#respawn
 	# threshold：3600；timeout：5；retry：5
-	procd_set_param respawn 1 5 10000
+	procd_set_param respawn 0 5 10000
 	
 	# run 
 	procd_set_param command $PROG
