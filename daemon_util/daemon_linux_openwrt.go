@@ -74,10 +74,10 @@ func (linux *openWrtRecord) Install(args ...string) (string, error) {
 	if err != nil {
 		return installAction + failed, err
 	}
-	defer file.Close()
 
 	templ, err := template.New("openWrtConfig").Parse(openWrtConfig)
 	if err != nil {
+		file.Close()
 		return installAction + failed, err
 	}
 
@@ -87,13 +87,16 @@ func (linux *openWrtRecord) Install(args ...string) (string, error) {
 			Name, Description, Path, Args string
 		}{linux.name, linux.description, execPatch, strings.Join(args, " ")},
 	); err != nil {
+		file.Close()
 		return installAction + failed, err
 	}
 
 	if err := os.Chmod(srvPath, 0755); err != nil {
+		file.Close()
 		return installAction + failed, err
 	}
 
+	file.Close()
 	if err := exec.Command(srvPath, "enable").Run(); err != nil {
 		return installAction + failed, err
 	}
