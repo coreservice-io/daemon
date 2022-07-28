@@ -39,11 +39,11 @@ func uname() (string, error) {
 	}
 	defer stdout.Close()
 
-	if err := cmd.Start(); err != nil { // 运行命令
+	if err := cmd.Start(); err != nil { // run command
 		return "", err
 	}
 
-	if opBytes, err := ioutil.ReadAll(stdout); err != nil { // 读取输出结果
+	if opBytes, err := ioutil.ReadAll(stdout); err != nil { // read the output
 		return "", err
 	} else {
 		return strings.ToLower(string(opBytes)), nil

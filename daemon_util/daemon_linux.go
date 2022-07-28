@@ -25,9 +25,11 @@ var bobcatNameArr = []string{
 func newDaemon(name, description string, kind Kind, dependencies []string) (Daemon, error) {
 	// newer subsystem must be checked first
 	if _, err := os.Stat("/run/systemd/system"); err == nil {
+		log.Println("[info] systemd detected")
 		return &systemDRecord{name, description, kind, dependencies}, nil
 	}
 	if _, err := os.Stat("/sbin/initctl"); err == nil {
+		log.Println("[info] upstart detected")
 		return &upstartRecord{name, description, kind, dependencies}, nil
 	}
 
@@ -82,11 +84,11 @@ func uname() (string, error) {
 	}
 	defer stdout.Close()
 
-	if err := cmd.Start(); err != nil { // 运行命令
+	if err := cmd.Start(); err != nil { // run command
 		return "", err
 	}
 
-	if opBytes, err := ioutil.ReadAll(stdout); err != nil { // 读取输出结果
+	if opBytes, err := ioutil.ReadAll(stdout); err != nil { // read the output
 		return "", err
 	} else {
 		return strings.ToLower(string(opBytes)), nil

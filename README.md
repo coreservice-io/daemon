@@ -39,3 +39,18 @@ sudo ./daemon remove myapp
 ```
 
 
+### in the test folder there are two test apps for arm32 and arm64 architecture
+
+#### you can run on arm64 op-system
+```
+sudo ./daemon install app_test-linux-arm32
+```
+#### or run on arm32(armv6,armv7,etc..) op-system
+```
+sudo ./daemon install app_test-linux-arm64
+```
+
+
+
+
+
