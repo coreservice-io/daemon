@@ -43,11 +43,11 @@ sudo ./daemon remove myapp
 
 #### you can run on arm64 op-system
 ```
-sudo ./daemon install app_test-linux-arm32
+sudo ./daemon install app_test-linux-arm64
 ```
 #### or run on arm32(armv6,armv7,etc..) op-system
 ```
-sudo ./daemon install app_test-linux-arm64
+sudo ./daemon install app_test-linux-arm32
 ```
 
 
