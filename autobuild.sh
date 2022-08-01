@@ -11,6 +11,9 @@ GOOS=darwin GOARCH=amd64 go build -a -o "./build/daemon-darwin-amd64"
 echo "Compiling Linux  amd64 version"
 GOOS=linux GOARCH=amd64  go build -a -o "./build/daemon-linux-amd64"
 
+echo "Compiling Linux  386 version"
+GOOS=linux GOARCH=386  go build -a -o "./build/daemon-linux-386"
+
 echo "Compiling Linux ARM64 version"
 GOOS=linux GOARCH=arm64   go build -a -o "./build/daemon-linux-arm64"
 
