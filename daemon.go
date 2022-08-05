@@ -65,6 +65,8 @@ func start(cCtx *cli.Context) error {
 		return errors.New("service name error")
 	}
 
+	fmt.Println("start service:", serviceName)
+
 	service, err := NewService(serviceName)
 	if err != nil {
 		return err
