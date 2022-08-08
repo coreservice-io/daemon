@@ -5,7 +5,9 @@ Install app as system service [support Linux and Darwin]
 Precompiled files in /build
 
 daemon-darwin-amd64<br />
+daemon-windows-amd64<br />
 daemon-linux-amd64<br />
+daemon-linux-386<br />
 daemon-linux-arm64<br />
 daemon-linux-arm32<br />
 
@@ -25,6 +27,9 @@ daemon-linux-arm32<br />
 │  └─daemon    //daemon file compiled and copy from this package
 ```
 
+### !important daemon and app must in a same folder.
+
+
 run cmd
 ```
 //enter {your-project-folder}
@@ -39,9 +44,9 @@ sudo ./daemon remove myapp
 ```
 
 
-### in the test folder there are two test apps for arm32 and arm64 architecture
+### in the test folder there are test apps for different architecture
 
-#### you can run on arm64 op-system
+#### example you can run on arm64 op-system
 ```
 sudo ./daemon install app_test-linux-arm64
 ```
