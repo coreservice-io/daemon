@@ -8,7 +8,6 @@ package daemon_util
 import (
 	"errors"
 	"fmt"
-	"github.com/coreservice-io/utils/path_util"
 	"os"
 	"os/exec"
 	"strconv"
@@ -16,6 +15,8 @@ import (
 	"time"
 	"unicode/utf16"
 	"unsafe"
+
+	"github.com/coreservice-io/utils/path_util"
 
 	"golang.org/x/sys/windows/registry"
 	"golang.org/x/sys/windows/svc"
@@ -126,22 +127,17 @@ func (windows *windowsRecord) Remove() (string, error) {
 func (windows *windowsRecord) Start() (string, error) {
 	startAction := "Starting " + windows.description + ":"
 
-	fmt.Println(startAction)
-
 	m, err := mgr.Connect()
 	if err != nil {
-		fmt.Println("mgr.Connect err:", err)
 		return startAction + failed, getWindowsError(err)
 	}
 	defer m.Disconnect()
 	s, err := m.OpenService(windows.name)
 	if err != nil {
-		fmt.Println("m.OpenService err:", err)
 		return startAction + failed, getWindowsError(err)
 	}
 	defer s.Close()
 	if err = s.Start(); err != nil {
-		fmt.Println("s.Start() err:", err)
 		return startAction + failed, getWindowsError(err)
 	}
 
@@ -334,14 +330,11 @@ loop:
 
 func (windows *windowsRecord) Run(e Executable) (string, error) {
 	runAction := "Running " + windows.description + ":"
-	fmt.Println("2222", runAction)
 
 	interactive, err := svc.IsWindowsService()
 	if err != nil {
-		fmt.Println("2222", err)
 		return runAction + failed, getWindowsError(err)
 	}
-	fmt.Println("interactive", interactive)
 	if !interactive {
 		// service called from windows service manager
 		// use API provided by golang.org/x/sys/windows
