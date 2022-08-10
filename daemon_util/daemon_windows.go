@@ -8,12 +8,15 @@ package daemon_util
 import (
 	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"strconv"
 	"syscall"
 	"time"
 	"unicode/utf16"
 	"unsafe"
+
+	"github.com/coreservice-io/utils/path_util"
 
 	"golang.org/x/sys/windows/registry"
 	"golang.org/x/sys/windows/svc"
@@ -37,7 +40,12 @@ func newDaemon(name, description string, kind Kind, dependencies []string) (Daem
 func (windows *windowsRecord) Install(args ...string) (string, error) {
 	installAction := "Install " + windows.description + ":"
 
-	execp, err := execPath()
+	//execp, err := execPath()
+	execp := path_util.ExE_Path(windows.name)
+	_, err := os.Stat(execp)
+	if err != nil {
+		return installAction + failed, err
+	}
 
 	if err != nil {
 		return installAction + failed, err
@@ -323,7 +331,7 @@ loop:
 func (windows *windowsRecord) Run(e Executable) (string, error) {
 	runAction := "Running " + windows.description + ":"
 
-	interactive, err := svc.IsAnInteractiveSession()
+	interactive, err := svc.IsWindowsService()
 	if err != nil {
 		return runAction + failed, getWindowsError(err)
 	}

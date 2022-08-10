@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/coreservice-io/utils v0.1.12
-	github.com/urfave/cli/v2 v2.10.3
+	github.com/urfave/cli/v2 v2.11.1
 	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150
 )
 

@@ -3,10 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/urfave/cli/v2"
 	"runtime"
 
 	"github.com/coreservice-io/daemon/daemon_util"
-	"github.com/urfave/cli/v2"
 )
 
 func NewService(serviceName string) (daemon_util.Daemon, error) {
