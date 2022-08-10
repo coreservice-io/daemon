@@ -1,6 +1,6 @@
 # DAEMON
 
-Install app as system service [support Linux and Darwin]
+Install app as system service [support Linux, Darwin and Windows]
 
 Precompiled files in /build
 
