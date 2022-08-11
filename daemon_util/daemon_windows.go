@@ -331,7 +331,7 @@ loop:
 func (windows *windowsRecord) Run(e Executable) (string, error) {
 	runAction := "Running " + windows.description + ":"
 
-	interactive, err := svc.IsWindowsService()
+	interactive, err := svc.IsAnInteractiveSession()
 	if err != nil {
 		return runAction + failed, getWindowsError(err)
 	}
