@@ -183,6 +183,7 @@ Windows). Template will be a default Go Template(`"text/template"`).
 If `SetTemplate` is not called, default template content will be used
 while creating service.
 
+
 | Variable     | Description                      |
 | ------------ | -------------------------------- |
 | Description  | Description for service          |

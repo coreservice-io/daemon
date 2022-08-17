@@ -3,8 +3,9 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/urfave/cli/v2"
 	"runtime"
+
+	"github.com/urfave/cli/v2"
 
 	"github.com/coreservice-io/daemon/daemon_util"
 )
@@ -14,7 +15,8 @@ func NewService(serviceName string) (daemon_util.Daemon, error) {
 	if runtime.GOOS == "darwin" {
 		kind = daemon_util.UserAgent
 	}
-	return daemon_util.New(serviceName, serviceName, kind)
+	var dependencies = []string{"network.target"}
+	return daemon_util.New(serviceName, serviceName, kind, dependencies...)
 }
 
 func install(cCtx *cli.Context) error {
