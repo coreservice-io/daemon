@@ -15,8 +15,7 @@ func NewService(serviceName string) (daemon_util.Daemon, error) {
 	if runtime.GOOS == "darwin" {
 		kind = daemon_util.UserAgent
 	}
-	var dependencies = []string{"network.target"}
-	return daemon_util.New(serviceName, serviceName, kind, dependencies...)
+	return daemon_util.New(serviceName, serviceName, kind)
 }
 
 func install(cCtx *cli.Context) error {
