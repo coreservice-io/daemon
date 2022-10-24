@@ -6,6 +6,7 @@ Precompiled files in /build
 
 daemon-darwin-amd64<br />
 daemon-windows-amd64<br />
+daemon-windows-386<br />
 daemon-linux-amd64<br />
 daemon-linux-386<br />
 daemon-linux-arm64<br />
